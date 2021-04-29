@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../../logo.svg";
 import "../../App.css";
 import Form from "./form/Form";
@@ -16,7 +16,9 @@ const AddCategory = () => {
     setSub_category,
     setSub_categories,
   ] = useSubCategories();
-  const { addCategory } = useContext(GlobalContext);
+  const { addCategory, editCategory, category, edit_category } = useContext(
+    GlobalContext
+  );
   const [onChangeValue, data, setData] = useOnchangeValue();
 
   const saveCategory = () => {
@@ -24,12 +26,26 @@ const AddCategory = () => {
       name: "",
       sub_categories: [],
     });
-    addCategory(data);
 
     setSub_category("");
     setSub_categories([]);
+    if (!edit_category) {
+      addCategory(data);
+    } else {
+      editCategory(data, category);
+    }
   };
 
+  useEffect(() => {
+    setData({
+      name: category?.name,
+      sub_categories: category?.sub_categories,
+    });
+    if (category?.sub_categories?.length) {
+      setSub_categories(category?.sub_categories);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category]);
 
   return (
     <div className="App-header">
@@ -46,7 +62,11 @@ const AddCategory = () => {
             : () => saveCategory()
         }
       >
-        {showFormAddCategory ? "Save Category" : "Add Category"}
+        {showFormAddCategory
+          ? "Save Category"
+          : edit_category
+          ? "Edit Category"
+          : "Add Category"}
       </button>
       {showFormAddCategory ? (
         <Form

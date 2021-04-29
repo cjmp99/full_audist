@@ -11,7 +11,6 @@ export const useOnchangeValue = () => {
               name: e.target.value
           })
       }
-      console.log(e.target.value);
   };
 
   return [onChangeValue, data, setData];

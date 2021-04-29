@@ -10,7 +10,9 @@ import {
 import { useShowSubCategories } from "../../hooks/useShowSubCategories";
 
 const ListCategories = () => {
-  const { categories } = useContext(GlobalContext);
+  const { categories, selectedCategory, removeCategory } = useContext(
+    GlobalContext
+  );
   const [
     enableOrDisableSubs,
     selectedKey,
@@ -20,21 +22,32 @@ const ListCategories = () => {
   return (
     <div className="container">
       {categories.map((item, key) => (
-        <span className="category" key={key}>
-          <div className="content-title">{item?.name}</div>
-
-          <div className="content-buttons">
-            <FaEdit />
-            <FaTrash style={{ marginLeft: "20px" }} />
-          </div>
-          {item?.sub_categories?.length ? (
-            <span
-              style={{ cursor: "pointer" }}
-              onClick={() => enableOrDisableSubs(key)}
-            >
-              <FaChevronCircleDown />
-            </span>
-          ) : null}
+        <div key={key}>
+          <span className="category">
+            <div className="content-title">{item?.name}</div>
+            <div className="content-buttons">
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={() => selectedCategory(item)}
+              >
+                <FaEdit />
+              </span>
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={() => removeCategory(item.name)}
+              >
+                <FaTrash style={{ marginLeft: "20px" }} />
+              </span>
+            </div>
+            {item?.sub_categories?.length ? (
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={() => enableOrDisableSubs(key)}
+              >
+                <FaChevronCircleDown />
+              </span>
+            ) : null}
+          </span>
           {showSubCategories && selectedKey === key ? (
             <div className="content-subcategories">
               {item?.sub_categories?.map((sub, key) => (
@@ -44,7 +57,7 @@ const ListCategories = () => {
               ))}
             </div>
           ) : null}
-        </span>
+        </div>
       ))}
 
       {categories.length < 1 && (

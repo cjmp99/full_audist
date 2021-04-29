@@ -23,36 +23,42 @@ const Form = ({
       <label>Name Category</label>
       <input
         name="name"
-        value={data.name}
+        value={data?.name}
         placeholder="Name Category"
         onChange={(e) => onChangeValue(e)}
         maxLength={15}
       />
 
-      <label>Add Sub-Category</label>
-      <input
-        name="sub_category"
-        value={sub_category}
-        placeholder="Name Sub Category"
-        onChange={(e) => onChangeSubCategory(e)}
-        maxLength={15}
-      />
+      {sub_categories?.length < 5 ? (
+        <>
+          <label>Add Sub-Category</label>
+          <input
+            name="sub_category"
+            value={sub_category}
+            placeholder="Name Sub Category"
+            onChange={(e) => onChangeSubCategory(e)}
+            maxLength={15}
+          />
 
-      <button
-        className="add-subcategory"
-        onClick={() => asignamentSubCategory(data, setData)}
-      >
-        {" "}
-        <FaPlusSquare />
-        Add Sub-Category
-      </button>
-      {console.log(sub_categories)}
+          <button
+            className="add-subcategory"
+            onClick={() => asignamentSubCategory(data, setData)}
+          >
+            {" "}
+            <FaPlusSquare />
+            Add Sub-Category
+          </button>
+        </>
+      ) : null}
 
-      <span className="listofsub">
+      <div className="listofsub">
         {sub_categories.map((item, key) => (
-          <span key={key}>* {item}</span>
+          <span className="item-sub" key={key}>
+            {" "}
+            {item}
+          </span>
         ))}
-      </span>
+      </div>
     </div>
   );
 };

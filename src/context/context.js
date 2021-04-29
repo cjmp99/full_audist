@@ -4,6 +4,8 @@ import appReducer from "./reducer";
 
 const initialState = {
   categories: [],
+  category: {},
+  edit_category: false,
 };
 
 export const GlobalContext = createContext(initialState);
@@ -16,20 +18,27 @@ export const GlobalProvider = ({ children }) => {
       type: "ADD_CATEGORY",
       payload: category,
     });
-    console.log(category);
   }
 
-  function editCategory(category) {
+  function editCategory(category, oldCategory) {
     dispatch({
       type: "EDIT_CATEGORY",
+      newCategory: category,
+      oldCategory: oldCategory,
+    });
+  }
+
+  function selectedCategory(category) {
+    dispatch({
+      type: "SELECTED_CATEGORY",
       payload: category,
     });
   }
 
-  function removeCategory(id) {
+  function removeCategory(name) {
     dispatch({
       type: "REMOVE_CATEGORY",
-      payload: id,
+      payload: name,
     });
   }
 
@@ -37,9 +46,12 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         categories: state.categories,
+        category: state.category,
+        edit_category: state.edit_category,
         addCategory,
         editCategory,
         removeCategory,
+        selectedCategory,
       }}
     >
       {children}
