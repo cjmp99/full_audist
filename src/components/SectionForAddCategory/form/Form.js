@@ -9,6 +9,7 @@ const Form = ({
   sub_categories,
   asignamentSubCategory,
   editAsignamentSubCategory,
+  deleteSubCategory,
   onChangeValue,
   sub_category,
   setSub_category,
@@ -25,6 +26,7 @@ const Form = ({
     activateAddNewSubCategory,
     onChangeNewSubCategory,
     saveNewSubCategory,
+    setshowOptions
   ] = useSubSubCategory(sub_categories);
 
   const [showeditSubCategory, setshoweditSubCategory] = useState(false);
@@ -155,7 +157,21 @@ const Form = ({
                 >
                   Edit Sub category
                 </span>
-                <span className="item-option">Delete Sub category</span>
+                <span
+                  className="item-option"
+                  onClick={() =>
+                    deleteSubCategory(
+                      item,
+                      setshoweditSubCategory,
+                      sub_categories,
+                      setData,
+                      data,
+                      setshowOptions
+                    )
+                  }
+                >
+                  Delete Sub category
+                </span>
               </div>
             ) : null}
 

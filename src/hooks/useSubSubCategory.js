@@ -69,5 +69,6 @@ export const useSubSubCategory = (sub_categories) => {
     activateAddNewSubCategory,
     onChangeNewSubCategory,
     saveNewSubCategory,
+    setshowOptions
   ];
 };

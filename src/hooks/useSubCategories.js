@@ -12,7 +12,7 @@ export const useSubCategories = () => {
       setSub_category({
         ...sub_category,
         name: e.target.value,
-        sub_categories: []
+        sub_categories: [],
       });
     }
   };
@@ -58,6 +58,24 @@ export const useSubCategories = () => {
     }
   };
 
+  const deleteSubCategory = (
+    item,
+    setshoweditSubCategory,
+    sub_categories,
+    setData,
+    data,
+    setshowOptions
+  ) => {
+    var i = sub_categories.indexOf(item);
+    sub_categories.splice(i, 1);
+    setData({
+      ...data,
+      sub_categories: sub_categories,
+    });
+    setshoweditSubCategory(false);
+    setshowOptions(false);
+  };
+
   const editAction = (
     item,
     key,
@@ -81,6 +99,7 @@ export const useSubCategories = () => {
     setSub_category,
     setSub_categories,
     editAsignamentSubCategory,
-    editAction
+    editAction,
+    deleteSubCategory,
   ];
 };
