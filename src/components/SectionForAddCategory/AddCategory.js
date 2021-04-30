@@ -5,6 +5,7 @@ import Form from "./form/Form";
 import { GlobalContext } from "../../context/context";
 import { useOnchangeValue } from "../../hooks/useOnchageValue";
 import { useSubCategories } from "../../hooks/useSubCategories";
+import { saveCategory } from "../../functions/saveCategory";
 
 const AddCategory = () => {
   const [showFormAddCategory, setShowFormAddCategory] = useState(false);
@@ -21,21 +22,6 @@ const AddCategory = () => {
   );
   const [onChangeValue, data, setData] = useOnchangeValue();
 
-  const saveCategory = () => {
-    setData({
-      name: "",
-      sub_categories: [],
-    });
-
-    setSub_category("");
-    setSub_categories([]);
-    if (!edit_category) {
-      addCategory(data);
-    } else {
-      editCategory(data, category);
-    }
-  };
-
   useEffect(() => {
     setData({
       name: category?.name,
@@ -51,7 +37,7 @@ const AddCategory = () => {
     <div className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <h3>Full Audist</h3>
-      <p>
+      <p className="title">
         List of categories by <b>Carlos Martinez</b>
       </p>
       <button
@@ -59,7 +45,17 @@ const AddCategory = () => {
         onClick={
           !showFormAddCategory
             ? () => setShowFormAddCategory(true)
-            : () => saveCategory()
+            : () =>
+                saveCategory(
+                  data,
+                  setData,
+                  setSub_category,
+                  setSub_categories,
+                  edit_category,
+                  addCategory,
+                  editCategory,
+                  category
+                )
         }
       >
         {showFormAddCategory
@@ -73,9 +69,11 @@ const AddCategory = () => {
           setShowFormAddCategory={setShowFormAddCategory}
           onChangeSubCategory={onChangeSubCategory}
           sub_categories={sub_categories}
+          setSub_categories={setSub_categories}
           asignamentSubCategory={asignamentSubCategory}
           onChangeValue={onChangeValue}
           sub_category={sub_category}
+          setSub_category={setSub_category}
           setData={setData}
           data={data}
         />

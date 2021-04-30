@@ -17,6 +17,9 @@ const ListCategories = () => {
     enableOrDisableSubs,
     selectedKey,
     showSubCategories,
+    enableOrDisableSubsTwo,
+    selectedTwoKey,
+    showSubTwoCategories,
   ] = useShowSubCategories();
 
   return (
@@ -27,12 +30,14 @@ const ListCategories = () => {
             <div className="content-title">{item?.name}</div>
             <div className="content-buttons">
               <span
+                className="edit-btn"
                 style={{ cursor: "pointer" }}
                 onClick={() => selectedCategory(item)}
               >
                 <FaEdit />
               </span>
               <span
+                className="delete-btn"
                 style={{ cursor: "pointer" }}
                 onClick={() => removeCategory(item.name)}
               >
@@ -41,6 +46,7 @@ const ListCategories = () => {
             </div>
             {item?.sub_categories?.length ? (
               <span
+                className="subcategories-btn"
                 style={{ cursor: "pointer" }}
                 onClick={() => enableOrDisableSubs(key)}
               >
@@ -48,12 +54,37 @@ const ListCategories = () => {
               </span>
             ) : null}
           </span>
+
           {showSubCategories && selectedKey === key ? (
             <div className="content-subcategories">
               {item?.sub_categories?.map((sub, key) => (
-                <span className="sub-category" key={key}>
-                  {sub}
-                </span>
+                <div key={key}>
+                  <div className="sub-category">
+                    <span>{sub.name}</span>
+                    <div className="content-buttons">
+                      {sub?.sub_categories?.length ? (
+                        <span
+                          className="subcategories-btn"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => enableOrDisableSubsTwo(key)}
+                        >
+                          <FaChevronCircleDown />
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  {showSubTwoCategories && selectedTwoKey === key ? (
+                    <>
+                      {sub?.sub_categories?.map((item, key) => (
+                        <div className="content-subcategories" key={key}>
+                          <div className="sub-category">
+                            <span>{item}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </>
+                  ) : null}
+                </div>
               ))}
             </div>
           ) : null}

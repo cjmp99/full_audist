@@ -2,7 +2,10 @@ import { useState } from "react";
 
 export const useShowSubCategories = () => {
   const [showSubCategories, setShowSubCategories] = useState(false);
+  const [showSubTwoCategories, setShowSubTwoCategories] = useState(false);
+
   const [selectedKey, setSelectedKey] = useState("");
+  const [selectedTwoKey, setSelectedTwoKey] = useState("");
 
   const enableOrDisableSubs = (key) => {
     if (showSubCategories) {
@@ -14,5 +17,22 @@ export const useShowSubCategories = () => {
     }
   };
 
-  return [enableOrDisableSubs, selectedKey, showSubCategories];
+  const enableOrDisableSubsTwo = (key) => {
+    if (showSubTwoCategories) {
+      setShowSubTwoCategories(false);
+      setSelectedTwoKey("");
+    } else {
+      setShowSubTwoCategories(true);
+      setSelectedTwoKey(key);
+    }
+  };
+
+  return [
+    enableOrDisableSubs,
+    selectedKey,
+    showSubCategories,
+    enableOrDisableSubsTwo,
+    selectedTwoKey,
+    showSubTwoCategories,
+  ];
 };
