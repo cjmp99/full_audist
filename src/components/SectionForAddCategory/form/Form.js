@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./form.css";
 import { FaWindowClose, FaPlusSquare, FaEllipsisV } from "react-icons/fa";
 import { useSubSubCategory } from "../../../hooks/useSubSubCategory";
@@ -8,8 +8,11 @@ const Form = ({
   onChangeSubCategory,
   sub_categories,
   asignamentSubCategory,
+  editAsignamentSubCategory,
   onChangeValue,
   sub_category,
+  setSub_category,
+  editAction,
   setData,
   data,
 }) => {
@@ -23,6 +26,9 @@ const Form = ({
     onChangeNewSubCategory,
     saveNewSubCategory,
   ] = useSubSubCategory(sub_categories);
+
+  const [showeditSubCategory, setshoweditSubCategory] = useState(false);
+  const [selectedKeyEdit, setselectedKeyEdit] = useState("");
 
   return (
     <div className="form">
@@ -65,24 +71,45 @@ const Form = ({
       <div className="listofsub">
         {sub_categories.map((item, key) => (
           <div key={key}>
-            {/* {addNewSub && selectedKey === key ? (
-              <input defaultValue={newSub} />
-            ) : ( */}
+            {showeditSubCategory && selectedKeyEdit === key ? (
+              <div className="add-new-subcategory">
+                <input
+                  name="sub_category"
+                  value={sub_category.name}
+                  placeholder="Name Sub Category"
+                  onChange={(e) => onChangeSubCategory(e)}
+                  maxLength={15}
+                />
 
-            {/* category */}
-            <span
-              className="item-sub"      
-              onClick={() => editSubCategory(item, key)}
-            >
-              {" "}
-              <div className="content-title">{item?.name}</div>
-              <div className="content-buttons">
-                <span style={{ cursor: "pointer" }}>
-                  <FaEllipsisV />
-                </span>
+                <button
+                  className="btn-add-new-subcategory"
+                  onClick={() =>
+                    editAsignamentSubCategory(
+                      item,
+                      sub_categories,
+                      data,
+                      setData,
+                      setshoweditSubCategory
+                    )
+                  }
+                >
+                  edit
+                </button>
               </div>
-            </span>
-            {/* )} */}
+            ) : (
+              <span
+                className="item-sub"
+                onClick={() => editSubCategory(item, key)}
+              >
+                {/* category */}{" "}
+                <div className="content-title">{item?.name}</div>
+                <div className="content-buttons">
+                  <span style={{ cursor: "pointer" }}>
+                    <FaEllipsisV />
+                  </span>
+                </div>
+              </span>
+            )}
 
             {/* asignament sub-category */}
             {addNewSub && selectedKeyShowOptions === key ? (
@@ -98,7 +125,7 @@ const Form = ({
                   className="btn-add-new-subcategory"
                   onClick={() => saveNewSubCategory(key)}
                 >
-                  add +
+                  add
                 </button>
               </div>
             ) : null}
@@ -106,18 +133,32 @@ const Form = ({
             {/* window for options */}
             {selectedKeyShowOptions === key && showOptions ? (
               <div className="content-options">
-                {item?.sub_categories?.length < 5 ? (
+                {!item.sub_categories?.length < 5 && (
                   <span
                     className="item-option"
                     onClick={() => activateAddNewSubCategory(item, key)}
                   >
                     Add Sub category
                   </span>
-                ) : null}
-                <span className="item-option">Edit Sub category</span>
+                )}
+                <span
+                  className="item-option"
+                  onClick={() =>
+                    editAction(
+                      item,
+                      key,
+                      setselectedKeyEdit,
+                      setshoweditSubCategory,
+                      setSub_category
+                    )
+                  }
+                >
+                  Edit Sub category
+                </span>
                 <span className="item-option">Delete Sub category</span>
               </div>
             ) : null}
+
             {/* list of sub-sub-categories */}
             <div className="content-subcategories">
               {item?.sub_categories?.map((sub, key) => (

@@ -16,6 +16,8 @@ const AddCategory = () => {
     sub_category,
     setSub_category,
     setSub_categories,
+    editAsignamentSubCategory,
+    editAction
   ] = useSubCategories();
   const { addCategory, editCategory, category, edit_category } = useContext(
     GlobalContext
@@ -67,6 +69,7 @@ const AddCategory = () => {
       {showFormAddCategory ? (
         <Form
           setShowFormAddCategory={setShowFormAddCategory}
+          editAsignamentSubCategory={editAsignamentSubCategory}
           onChangeSubCategory={onChangeSubCategory}
           sub_categories={sub_categories}
           setSub_categories={setSub_categories}
@@ -74,6 +77,7 @@ const AddCategory = () => {
           onChangeValue={onChangeValue}
           sub_category={sub_category}
           setSub_category={setSub_category}
+          editAction={editAction}
           setData={setData}
           data={data}
         />

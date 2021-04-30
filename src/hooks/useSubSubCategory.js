@@ -46,6 +46,7 @@ export const useSubSubCategory = (sub_categories) => {
   const saveNewSubCategory = (key) => {
     if (newSub !== "") {
       let selectItem = sub_categories[key];
+
       selectItem.sub_categories = [
         ...sub_categories[key]?.sub_categories,
         newSub,
@@ -53,6 +54,7 @@ export const useSubSubCategory = (sub_categories) => {
 
       setsNewSub("");
       setAddNewSub(false);
+      setselectedKeyShowOptions("");
     } else {
       alert("enter a name for a sub category");
     }
